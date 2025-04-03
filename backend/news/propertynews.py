@@ -7,7 +7,7 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
+import time, os
 
 def scrape_property_news():
     url = "https://www.propertynews.ae/?s=real+estate"
@@ -15,6 +15,7 @@ def scrape_property_news():
 
     # Optimize Chrome options for speed
     options = Options()
+    options.binary_location = os.environ.get("GOOGLE_CHROME_BIN") 
     options.add_argument("--headless=new")  # New headless mode for better performance
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")

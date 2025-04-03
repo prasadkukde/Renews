@@ -6,7 +6,7 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
+import time, os
 
 
 def scrape_properties(url):
@@ -14,6 +14,7 @@ def scrape_properties(url):
     print(f"Scraping URL: {url}")
 
     options = Options()
+    options.binary_location = os.environ.get("GOOGLE_CHROME_BIN") 
     options.add_argument("--headless")
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")

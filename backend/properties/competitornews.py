@@ -6,6 +6,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import undetected_chromedriver as uc
+import os
 
 
 # Configure Chrome options
@@ -18,6 +19,7 @@ def scrape_competitor_news(query):
 
     # Optimize Chrome options for speed
     options = Options()
+    options.binary_location = os.environ.get("GOOGLE_CHROME_BIN") 
     options.add_argument("--headless=new")  # New headless mode
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_argument("--no-sandbox")
