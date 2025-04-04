@@ -1,32 +1,46 @@
-# Use an official Python base image
 FROM python:3.11-slim
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
+# Step 1: Install system dependencies
+RUN echo "🔧 Updating apt and installing Chromium..." && \
+    apt-get update && \
+    apt-get install -y \
+    chromium \
+    chromium-driver \
+    fonts-liberation \
+    libnss3 \
+    libxss1 \
+    libappindicator3-1 \
+    libasound2 \
+    libatk-bridge2.0-0 \
+    libgtk-3-0 \
+    wget \
+    curl \
+    gnupg && \
+    rm -rf /var/lib/apt/lists/* && \
+    echo "✅ Chromium and dependencies installed"
 
-# Install Chromium (if using headless scraping)
-RUN apt-get update && \
-    apt-get install -y chromium chromium-driver && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+# Step 2: Set environment variables for Chrome
+ENV CHROME_BIN=/usr/bin/chromium
+ENV PATH="${CHROME_BIN}:${PATH}"
+RUN echo "✅ Environment variables for Chromium set"
 
-# Set working directory
+# Step 3: Set working directory
 WORKDIR /app
+RUN echo "✅ Working directory set to /app"
 
-# Copy requirements and install dependencies
+# Step 4: Copy requirements.txt and install Python dependencies
 COPY requirements.txt .
-RUN pip install --upgrade pip && pip install -r requirements.txt
+RUN echo "📦 Installing Python dependencies..." && \
+    pip install --upgrade pip && \
+    pip install -r requirements.txt && \
+    echo "✅ Python dependencies installed"
 
-# Copy rest of the app
+# Step 5: Copy rest of the project files
 COPY . .
+RUN echo "📁 Application files copied"
 
-# Log to confirm Dockerfile is running
-RUN echo "✅ Dockerfile ran successfully"
+# Final Step: Confirm Docker build complete
+RUN echo "✅ Docker build completed successfully"
 
-# Set environment path for Chromium if needed
-ENV PATH="/usr/lib/chromium:$PATH"
-ENV CHROME_BIN="/usr/bin/chromium"
-
-# Run the app
+# Start your app
 CMD ["python", "app.py"]
