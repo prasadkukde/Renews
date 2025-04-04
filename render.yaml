@@ -1,5 +1,11 @@
 services:
   - type: web
-    name: your-service-name
+    name: renews
     env: docker
     plan: free
+    region: oregon
+    branch: main
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: FLASK_ENV
+        value: production
