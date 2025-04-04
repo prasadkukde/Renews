@@ -4,12 +4,18 @@ FROM python:3.11-slim
 # Step 1: Install system dependencies (including Chromium & MySQL dev)
 RUN echo "🔧 Updating apt and installing dependencies..." && \
     apt-get update && \
-    apt-get install -y --no-install-recommends \
+    apt-get install -y \
     chromium \
     chromium-driver \
+    libnss3 \
+    wget \
+    curl \
+    gnupg \
+    gcc \
+    default-libmysqlclient-dev \
     pkg-config && \
     rm -rf /var/lib/apt/lists/* && \
-    echo "✅ System dependencies installed successfully"
+   echo "✅ System dependencies installed successfully"
 
 # Step 2: Set environment variables for Chromium
 ENV CHROME_BIN=/usr/bin/chromium
