@@ -27,10 +27,13 @@ def scrape_khaleej_news():
     options = uc.ChromeOptions()
 
     # Detect Chromium in Docker
-    binary_path = which("chromium") or which("chromium-browser") or "/usr/bin/chromium"
+    binary_path = which("chromium") or which("chromium-browser") or which("google-chrome")
+    print("✅ Browser path found:", binary_path)
+
+    if not binary_path:
+        raise EnvironmentError("❌ Chrome not found on system")
+
     options.binary_location = binary_path
-    print(binary_path)
-    
     driver = uc.Chrome(version_main=134, options=options, browser_executable_path="/usr/bin/chromium")
 
     try:
