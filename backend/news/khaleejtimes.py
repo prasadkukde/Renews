@@ -1,20 +1,20 @@
-import undetected_chromedriver as uc
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
 from shutil import which
 
-
-# Prevent __del__ crash
-uc.Chrome.__del__ = lambda self: None
+# Define ChromeDriver path (update this if needed)
+chrome_driver_path = r"C:\Users\PRASAD KUKDE\Downloads\chromedriver-win64\chromedriver.exe"
 
 def scrape_khaleej_news():
     url = "https://www.khaleejtimes.com/search?q=real%20estate%20uae"
     print(f"Scraping URL: {url}")
 
-    options = uc.ChromeOptions()
-    options.add_argument("--headless=new")
+    # Set Chrome options
+    options = webdriver.ChromeOptions()
+    options.add_argument("--headless=new")  # Run in headless mode (remove if debugging)
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
@@ -24,18 +24,9 @@ def scrape_khaleej_news():
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.6943.142 Safari/537.36")
 
-    options = uc.ChromeOptions()
-
-    # Detect Chromium in Docker
-    binary_path = which("chromium") or which("chromium-browser") or which("google-chrome")
-    print("✅ Browser path found:", binary_path)
-
-    if not binary_path:
-        raise EnvironmentError("❌ Chrome not found on system")
-
-    options.binary_location = binary_path
-    driver = uc.Chrome(version_main=134, options=options, browser_executable_path="/usr/bin/chromium")
-
+    # Set up Chrome WebDriver with Service
+    service = Service(chrome_driver_path)
+    driver = webdriver.Chrome(service=service, options=options)
     try:
         driver.get(url)
         wait = WebDriverWait(driver, 5)
