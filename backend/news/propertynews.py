@@ -15,8 +15,7 @@ def scrape_property_news():
 
     # Optimize Chrome options for speed
     options = Options()
-    chrome_bin = os.environ.get("GOOGLE_CHROME_BIN", "/usr/bin/google-chrome")  # Default path for Render
-    options.binary_location = chrome_bin  # Ensure it's a valid string
+    options.binary_location = "/usr/bin/chromium-browser" 
     options.add_argument("--headless=new")  # New headless mode for better performance
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
