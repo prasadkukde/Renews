@@ -30,11 +30,7 @@ def scrape_khaleej_news():
     binary_path = which("chromium") or which("chromium-browser") or "/usr/bin/chromium"
     options.binary_location = binary_path
     
-    driver = uc.Chrome(
-        version_main=134, 
-        options=options, 
-        browser_executable_path="/usr/bin/google-chrome"
-    )
+    driver = uc.Chrome(version_main=134, options=options, browser_executable_path="/usr/bin/google-chrome")
 
     try:
         driver.get(url)
