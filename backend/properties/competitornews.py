@@ -1,62 +1,53 @@
-from selenium import webdriver
+import undetected_chromedriver as uc
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import undetected_chromedriver as uc
-import os
-import chromedriver_autoinstaller
 
-# Configure Chrome options
-
-
+# Suppress WinError __del__ error
+uc.Chrome.__del__ = lambda self: None
 
 def scrape_competitor_news(query):
     url = f"https://www.arabianbusiness.com/tags/{query}"
     print(f"Scraping URL: {url}")
 
-    # Optimize Chrome options for speed
-    
-
-    chromedriver_autoinstaller.install()
-
-    options = Options()
-    options.binary_location = "/usr/bin/chromium-browser" 
-    options.add_argument("--headless=new")  # New headless mode
-    options.add_argument("--disable-blink-features=AutomationControlled")
+    options = uc.ChromeOptions()
+    options.add_argument("--headless=new")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-gpu")
+    options.add_argument("--disable-blink-features=AutomationControlled")
+    options.add_argument("--blink-settings=imagesEnabled=false")
+    options.add_argument("--disable-extensions")
+    options.add_argument("--log-level=3")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.6943.142 Safari/537.36")
 
-
-    # Start WebDriver
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver = uc.Chrome(version_main=134, options=options)
 
     try:
         driver.get(url)
         wait = WebDriverWait(driver, 5)
 
-        articles = set()  # Use a set to avoid duplicates
+        articles = set()
+
         news_items = wait.until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, "article")))
-        # Extract all visible articles
         for item in news_items:
             try:
                 title_element = item.find_element(By.CSS_SELECTOR, "h2 > a")
-                title = title_element.get_attribute("textContent")
+                title = title_element.get_attribute("textContent").strip()
                 link = title_element.get_attribute("href")
-                articles.add((title, link))  # Avoid duplicates
+                articles.add((title, link))
             except Exception as e:
                 print(f"Error extracting news item: {e}")
-
 
     except Exception as e:
         print(f"Error: {e}")
 
     finally:
-        driver.quit()  # Ensure driver quits to free up resources
+        try:
+            driver.quit()
+        except:
+            pass
+        del driver
 
     return list(articles)
 
