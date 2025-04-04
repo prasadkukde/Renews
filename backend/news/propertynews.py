@@ -4,26 +4,33 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
-uc.Chrome.__del__ = lambda self: None
+from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
+chrome_driver_path = r"C:\Users\PRASAD KUKDE\Downloads\chromedriver-win64\chromedriver.exe"
 
 def scrape_property_news():
     url = "https://www.propertynews.ae/?s=real+estate"
     print(f"Scraping URL: {url}")
 
     # Set up Chrome options
-    options = uc.ChromeOptions()
-    options.add_argument("--headless=new")  # Enable headless mode (new mode)
+    options = webdriver.ChromeOptions()
+    options.add_argument("--headless=new")  # Run in headless mode (remove if debugging)
+    options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--disable-gpu")
-    options.add_argument("--blink-settings=imagesEnabled=false")  # Disable image loading
+    options.add_argument("--blink-settings=imagesEnabled=false")
     options.add_argument("--disable-extensions")
     options.add_argument("--log-level=3")
     options.add_argument("--disable-blink-features=AutomationControlled")
-    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+    options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.6943.142 Safari/537.36")
 
-    # Initialize driver
-    driver = uc.Chrome(version_main=134, options=options)
+    # Set up Chrome WebDriver with Service
+    service = Service(chrome_driver_path)
+    driver = webdriver.Chrome(service=service, options=options)
     
     try:
         driver.get(url)
