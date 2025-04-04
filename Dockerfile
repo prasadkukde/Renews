@@ -7,15 +7,6 @@ RUN echo "🔧 Updating apt and installing dependencies..." && \
     apt-get install -y --no-install-recommends \
     chromium \
     chromium-driver \
-    fonts-liberation \
-    libnss3 \
-    libxss1 \
-    libappindicator3-1 \
-    libasound2 \
-    libatk-bridge2.0-0 \
-    libgtk-3-0 \
-    gcc \
-    default-libmysqlclient-dev \
     pkg-config && \
     rm -rf /var/lib/apt/lists/* && \
     echo "✅ System dependencies installed successfully"
