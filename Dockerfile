@@ -20,11 +20,10 @@ RUN echo "✅ Environment variables for Chromium set"
 WORKDIR /app
 RUN echo "✅ Working directory set to /app"
 
-# Step 4: Copy requirements.txt and install dependencies
+
+
 COPY requirements.txt .
-RUN echo "📦 Installing Python dependencies..." && \
-    pip install --upgrade pip && \
-    pip install -r requirements.txt && \
+RUN pip install --no-cache-dir -r requirements.txt && \
     echo "✅ Python dependencies installed"
 
 # Step 5: Copy the rest of the application files
