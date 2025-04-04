@@ -3,6 +3,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+from shutil import which
+
 
 # Prevent __del__ crash
 uc.Chrome.__del__ = lambda self: None
