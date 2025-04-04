@@ -30,10 +30,15 @@ RUN echo "✅ Working directory set to /app"
 
 # Step 4: Copy requirements.txt and install Python dependencies
 COPY requirements.txt .
-RUN echo "📦 Installing Python dependencies..." && \
+
+RUN apt-get update && \
+    apt-get install -y gcc default-libmysqlclient-dev pkg-config && \
+    rm -rf /var/lib/apt/lists/* && \
+    echo "📦 Installing Python dependencies..." && \
     pip install --upgrade pip && \
     pip install -r requirements.txt && \
     echo "✅ Python dependencies installed"
+
 
 # Step 5: Copy rest of the project files
 COPY . .
