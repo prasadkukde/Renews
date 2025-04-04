@@ -24,11 +24,12 @@ def scrape_khaleej_news():
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.6943.142 Safari/537.36")
 
-    binary_path = which("google-chrome") or which("chromium-browser")
-    if binary_path:
-        options.binary_location = binary_path
-    else:
-        raise EnvironmentError("Chrome not found")
+    options = uc.ChromeOptions()
+
+    # Detect Chromium in Docker
+    binary_path = which("chromium") or which("chromium-browser") or "/usr/bin/chromium"
+    options.binary_location = binary_path
+    
     driver = uc.Chrome(version_main=134, options=options)
 
     try:
