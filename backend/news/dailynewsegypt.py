@@ -6,11 +6,13 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time, os
+import chromedriver_autoinstaller
 
 def scrape_dailyegypt_news():
     url = "https://www.dailynewsegypt.com/category/business/real-estate-a-construction/"
     print(f"Scraping URL: {url}")
 
+    chromedriver_autoinstaller.install()
     # Optimize Chrome options for speed
     options = Options()
     options.binary_location = "/usr/bin/chromium-browser" 

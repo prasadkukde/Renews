@@ -7,7 +7,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import undetected_chromedriver as uc
 import os
-
+import chromedriver_autoinstaller
 
 # Configure Chrome options
 
@@ -18,6 +18,10 @@ def scrape_competitor_news(query):
     print(f"Scraping URL: {url}")
 
     # Optimize Chrome options for speed
+    
+
+    chromedriver_autoinstaller.install()
+
     options = Options()
     options.binary_location = "/usr/bin/chromium-browser" 
     options.add_argument("--headless=new")  # New headless mode

@@ -6,11 +6,13 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time, os
+import chromedriver_autoinstaller
 
 def scrape_google_news(query):
     url = f"https://www.google.com/search?q={query}++real+estate+news&sca_esv=f72a643d70be9e1f&biw=1366&bih=641&tbm=nws&sxsrf=AHTn8zq7UgztTVobTWltAtMDDWQ_A-xapg%3A1741267064106&ei=eKDJZ8iaBpP_1e8PxZXmoQs&ved=0ahUKEwjItsKmxfWLAxWTf_UHHcWKObQQ4dUDCA4&uact=5&oq=saudi++real+estate+news&gs_lp=Egxnd3Mtd2l6LW5ld3MiF3NhdWRpICByZWFsIGVzdGF0ZSBuZXdzSABQAFgAcAB4AJABAJgBAKABAKoBALgBA8gBAJgCAKACAJgDAJIHAKAHAA&sclient=gws-wiz-news"
     print(f"Scraping URL: {url}")
 
+    chromedriver_autoinstaller.install()
     # Optimize Chrome options for speed
     options = Options()
     
