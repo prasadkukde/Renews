@@ -3,6 +3,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import chromedriver_autoinstaller
 
 # Define ChromeDriver path (update this if needed)
 chrome_driver_path = r"C:\Users\PRASAD KUKDE\Downloads\chromedriver-win64\chromedriver.exe"
@@ -10,6 +11,8 @@ chrome_driver_path = r"C:\Users\PRASAD KUKDE\Downloads\chromedriver-win64\chrome
 def scrape_khaleej_news():
     url = "https://www.khaleejtimes.com/search?q=real%20estate%20uae"
     print(f"Scraping URL: {url}")
+
+    chromedriver_autoinstaller.install()
 
     # Set Chrome options
     options = webdriver.ChromeOptions()
@@ -25,7 +28,9 @@ def scrape_khaleej_news():
 
     # Set up Chrome WebDriver with Service
     service = Service(chrome_driver_path)
-    driver = webdriver.Chrome(service=service, options=options)
+    driver = webdriver.Chrome(options=options)
+    # driver = webdriver.Chrome(service=service, options=options)
+    
     try:
         driver.get(url)
         wait = WebDriverWait(driver, 5)
