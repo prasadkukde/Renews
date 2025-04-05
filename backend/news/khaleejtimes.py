@@ -19,7 +19,7 @@ def scrape_khaleej_news():
     # Set Chrome options
     options = Options()
 
-    options.binary_location = "/usr/bin/chromium-browser"
+    options.binary_location = "/usr/bin/chromium"
     options = webdriver.ChromeOptions()
     options.add_argument("--headless=new")  # Run in headless mode (remove if debugging)
     options.add_argument("--disable-gpu")
