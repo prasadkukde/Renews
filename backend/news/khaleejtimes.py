@@ -15,7 +15,7 @@ def scrape_khaleej_news():
     url = "https://www.khaleejtimes.com/search?q=real%20estate%20uae"
     print(f"Scraping URL: {url}")
 
-    # chromedriver_autoinstaller.install()
+    chromedriver_autoinstaller.install()
 
     # Set Chrome options
     options = Options()
@@ -32,7 +32,7 @@ def scrape_khaleej_news():
     options.add_argument("--blink-settings=imagesEnabled=false")
     options.add_argument("--disable-extensions")
     options.add_argument("--log-level=3")
-    options.add_argument('--user-data-dir=/tmp/chrome-user-data') 
+    options.add_argument('--user-data-dir=/tmp/chrome-data')
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.6943.142 Safari/537.36")
 
