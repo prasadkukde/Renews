@@ -14,10 +14,10 @@ from backend.properties.properties import scrape_properties
 app = Flask(__name__, template_folder="templates", static_folder="static")
 
 @app.route("/")
-def home():
-    return "App is running. Hit /scrape to trigger scraping."
+# def home():
+#     return "App is running. Hit /scrape to trigger scraping."
 
-@app.route("/scrape", methods=["GET"])
+# @app.route("/scrape", methods=["GET"])
 def index():
     # UAE and Egypt news
     uae_articles = scrape_khaleej_news() + scrape_property_news()
