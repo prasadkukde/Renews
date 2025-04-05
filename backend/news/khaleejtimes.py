@@ -16,7 +16,7 @@ def scrape_khaleej_news():
 
     # Set Chrome options
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless=new")  # Run in headless mode (remove if debugging)
+    options.add_argument("--headless")  # Run in headless mode (remove if debugging)
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
