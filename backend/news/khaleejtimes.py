@@ -18,6 +18,8 @@ def scrape_khaleej_news():
 
     # Set Chrome options
     options = Options()
+
+    options.binary_location = "/usr/bin/chromium-browser"
     options = webdriver.ChromeOptions()
     options.add_argument("--headless=new")  # Run in headless mode (remove if debugging)
     options.add_argument("--disable-gpu")
@@ -31,7 +33,10 @@ def scrape_khaleej_news():
 
     # Set up Chrome WebDriver with Service
     # service = Service(chrome_driver_path)
-    driver = webdriver.Chrome(ChromeDriverManager(verify_ssl=False).install())
+    # driver = webdriver.Chrome(ChromeDriverManager(verify_ssl=False).install())
+    
+    driver = webdriver.Chrome(service=Service("/usr/bin/chromedriver"), options=options)
+    
     # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     # driver = webdriver.Chrome(service=service, options=options)
     

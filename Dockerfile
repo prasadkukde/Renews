@@ -5,7 +5,7 @@ FROM python:3.11-slim
 RUN echo "🔧 Updating apt and installing dependencies..." && \
     apt-get update && \
     apt-get install -y \
-    chromium \
+    chromium-browser \
     chromium-driver \
     libnss3 \
     wget \
