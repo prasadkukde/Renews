@@ -18,12 +18,12 @@ def scrape_khaleej_news():
     # chromedriver_autoinstaller.install()
 
     # Set Chrome options
-    # options = Options()
+    options = Options()
 
     # options.binary_location = "/usr/bin/chromium"
     # options.binary_location = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
     
-    options = uc.ChromeOptions()
+    # options = uc.ChromeOptions()
     # options = webdriver.ChromeOptions()
     options.add_argument("--headless=new")  # Run in headless mode (remove if debugging)
     options.add_argument("--disable-gpu")
@@ -42,8 +42,8 @@ def scrape_khaleej_news():
     # driver = webdriver.Chrome(service=Service(chrome_driver_path), options=options)
     
     # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-    driver = uc.Chrome(options=options)
-    # driver = webdriver.Chrome(service=service, options=options)
+    # driver = uc.Chrome(options=options)
+    driver = webdriver.Chrome(options=options)
     
     try:
         driver.get(url)
