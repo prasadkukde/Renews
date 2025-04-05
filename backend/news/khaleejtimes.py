@@ -31,7 +31,8 @@ def scrape_khaleej_news():
 
     # Set up Chrome WebDriver with Service
     # service = Service(chrome_driver_path)
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver = webdriver.Chrome(ChromeDriverManager(verify_ssl=False).install())
+    # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     # driver = webdriver.Chrome(service=service, options=options)
     
     try:
