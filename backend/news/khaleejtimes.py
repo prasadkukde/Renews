@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import chromedriver_autoinstaller, time
 from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
+import undetected_chromedriver as uc
 
 # Define ChromeDriver path (update this if needed)
 chrome_driver_path = r"C:\Users\PRASAD KUKDE\Downloads\chromedriver-win64\chromedriver.exe"
@@ -17,12 +18,12 @@ def scrape_khaleej_news():
     # chromedriver_autoinstaller.install()
 
     # Set Chrome options
-    options = Options()
+    # options = Options()
 
     # options.binary_location = "/usr/bin/chromium"
     # options.binary_location = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
     
-    
+    options = uc.ChromeOptions()
     # options = webdriver.ChromeOptions()
     options.add_argument("--headless=new")  # Run in headless mode (remove if debugging)
     options.add_argument("--disable-gpu")
@@ -40,7 +41,8 @@ def scrape_khaleej_news():
     
     # driver = webdriver.Chrome(service=Service(chrome_driver_path), options=options)
     
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    # driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    driver = uc.Chrome(options=options)
     # driver = webdriver.Chrome(service=service, options=options)
     
     try:
