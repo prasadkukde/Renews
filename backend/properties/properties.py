@@ -6,16 +6,14 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time, os
+import time
 
 
 def scrape_properties(url):
-
     print(f"Scraping URL: {url}")
 
     options = Options()
-    options.binary_location = os.environ.get("GOOGLE_CHROME_BIN") 
-    options.add_argument("--headless")
+    options.add_argument("--headless")  # Run in headless mode
     options.add_argument("--disable-gpu")
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
@@ -24,6 +22,7 @@ def scrape_properties(url):
         "user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
     )
 
+    # Launch Chrome using ChromeDriverManager
     driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
     driver.get(url)
 
@@ -41,8 +40,12 @@ def scrape_properties(url):
                     price = "AED: " + item.find_element(By.CSS_SELECTOR, "span[aria-label='Price']").text
                     title = item.find_element(By.CSS_SELECTOR, "h2.f0f13906").text
                     type_of_apt = item.find_element(By.CSS_SELECTOR, "span[aria-label='Type']").text
+                    no_of_beds = ""
+                    try:
+                        no_of_beds = item.find_element(By.CSS_SELECTOR, "span._1822ec30 span._19e94678[aria-label='Beds']").text + " Beds"
+                    except:
+                        pass
                     
-                    no_of_beds = item.find_element(By.CSS_SELECTOR, "span._1822ec30 span._19e94678[aria-label='Beds']").text + " Beds"
                     no_of_baths = item.find_element(By.CSS_SELECTOR, "span[aria-label='Baths']").text + " Baths"
 
                     area = item.find_element(By.CSS_SELECTOR, "span[aria-label='Area'] h4").text
@@ -85,40 +88,41 @@ def scrape_properties(url):
 if __name__ == '__main__':
     property_data = []
 
-    companies = [   
-                    # 'mag'
-                  'sobha'
-                #   'aldar'
-                #   'emaar'
-                #   'damac'
-                #   'nakheel'
-                #   'meraas'
-                #  'danube'
-                 ]  
-    for comp in companies:
-        property_data += scrape_properties(comp)
+    # companies = [   
+    #                 # 'mag'
+    #               'sobha'
+    #             #   'aldar'
+    #             #   'emaar'
+    #             #   'damac'
+    #             #   'nakheel'
+    #             #   'meraas'
+    #             #  'danube'
+    #              ]  
+    # for comp in companies:
+    property_data += scrape_properties("https://www.bayut.com/s/emaar-properties-sale-dubai/")
         
+    print(property_data)
     # for i in property_data:
     #     print(i['Beds'], i['Title'])
 
-    file_path = "combined_data.xlsx"
+    # file_path = "combined_data.xlsx"
 
-    print("Data appended successfully!")
+    # print("Data appended successfully!")
 
-    df = pd.DataFrame(property_data)
+    # df = pd.DataFrame(property_data)
 
-    df['Price (Numeric)'] = df['Price'].str.extract(r'(\d[\d,]*)')[0].str.replace(',', '').astype(float)
+    # df['Price (Numeric)'] = df['Price'].str.extract(r'(\d[\d,]*)')[0].str.replace(',', '').astype(float)
 
-    df = df.sort_values(by=['Type', 'Beds', 'Baths', 'Price (Numeric)'])
+    # df = df.sort_values(by=['Type', 'Beds', 'Baths', 'Price (Numeric)'])
 
-    df.drop('Price (Numeric)', axis=1, inplace=True)
-
-
-    # df.to_excel("combined_data.xlsx", index=False)
-    existing_data = pd.read_excel(file_path, engine='openpyxl')
-    updated_data = pd.concat([existing_data, df], ignore_index=True)
+    # df.drop('Price (Numeric)', axis=1, inplace=True)
 
 
-    # Save to Excel
-    updated_data.to_excel(file_path, index=False, engine='openpyxl')
-    print("Excel file 'combined_data.xlsx' has been created successfully.")
+    # # df.to_excel("combined_data.xlsx", index=False)
+    # existing_data = pd.read_excel(file_path, engine='openpyxl')
+    # updated_data = pd.concat([existing_data, df], ignore_index=True)
+
+
+    # # Save to Excel
+    # updated_data.to_excel(file_path, index=False, engine='openpyxl')
+    # print("Excel file 'combined_data.xlsx' has been created successfully.")
